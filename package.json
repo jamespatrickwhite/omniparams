@@ -1,5 +1,5 @@
 {
-  "name": "@jamespatrickwhite/omniparams",
+  "name": "omniparams",
   "version": "0.5.0",
   "description": "A simple multi-source parameter collection library for NodeJS",
   "main": "omniparams.js",
