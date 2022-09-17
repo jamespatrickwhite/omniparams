@@ -1,6 +1,6 @@
 {
   "name": "omniparams",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "A simple multi-source parameter collection library for NodeJS",
   "main": "omniparams.js",
   "type": "module",
