@@ -4,7 +4,7 @@
 The purpose of this module is to allow for quick and easy collection of parameters from one or more sources
 for use within an application.
 Environment variables are sourced if configured, with command line arguments also being an option.
-Both environment variables and command line arguments may both be included, with the command line arguments 
+Both environment variables and command line arguments may both be included, with the command line arguments
 being able to act as override for what was set in an environment variable.
 
 
@@ -18,10 +18,10 @@ being able to act as override for what was set in an environment variable.
 <a name="module_omniparams.ParamType"></a>
 
 ### omniparams.ParamType : <code>enum</code>
-Parameter definition types to convert found environment/command line values into: 
-String, StringArray, Int, IntArray, UnsignedInt, UnsignedIntArray, Boolean.
+Parameter definition types to convert found environment/command line values into:
+String, StringArray, Int, IntArray, UnsignedInt, UnsignedIntArray, Float, FloatArray, Boolean, JSON
 Boolean values that resolve to true (case-insensitive): 1, t, true, y, yes, on, enable, enabled.
-Boolean values that resolve to true (case-insensitive): 0, f, false, n, no, off, disable, disabled.
+Boolean values that resolve to false (case-insensitive): 0, f, false, n, no, off, disable, disabled.
 
 **Kind**: static enum of [<code>omniparams</code>](#module_omniparams)  
 <a name="module_omniparams.collectParams"></a>

@@ -6,16 +6,16 @@ dotenv.config();
  * The purpose of this module is to allow for quick and easy collection of parameters from one or more sources
  * for use within an application.
  * Environment variables are sourced if configured, with command line arguments also being an option.
- * Both environment variables and command line arguments may both be included, with the command line arguments 
+ * Both environment variables and command line arguments may both be included, with the command line arguments
  * being able to act as override for what was set in an environment variable.
  * @module omniparams
  */
 
 /**
- * Parameter definition types to convert found environment/command line values into: 
- * String, StringArray, Int, IntArray, UnsignedInt, UnsignedIntArray, Boolean.
+ * Parameter definition types to convert found environment/command line values into:
+ * String, StringArray, Int, IntArray, UnsignedInt, UnsignedIntArray, Float, FloatArray, Boolean, JSON
  * Boolean values that resolve to true (case-insensitive): 1, t, true, y, yes, on, enable, enabled.
- * Boolean values that resolve to true (case-insensitive): 0, f, false, n, no, off, disable, disabled.
+ * Boolean values that resolve to false (case-insensitive): 0, f, false, n, no, off, disable, disabled.
  * @enum {string}
  */
 export const ParamType = {
@@ -25,7 +25,10 @@ export const ParamType = {
   IntArray: 'int[]',
   UnsignedInt: 'uint',
   UnsignedIntArray: 'uint[]',
+  Float: 'float',
+  FloatArray: 'float[]',
   Boolean: 'boolean',
+  JSON: 'json',
 };
 
 /**
@@ -99,6 +102,22 @@ function getUInt(value) {
   return num;
 }
 
+function getFloat(value) {
+  const num = parseFloat(value);
+  if (isNaN(num))
+    return null;
+  return num;
+}
+
+function getJSON(value) {
+  try {
+    return JSON.parse(value);
+  }
+  catch(err) {
+    return null;
+  }
+}
+
 /**
  * Perform the collection of values, given the parameter defintions. It returns an object with properties set
  * to any found (or default) values. Any properties not found and without a provided default value set will be omitted.
@@ -149,6 +168,9 @@ export function collectParams(definitions, {
         case ParamType.UnsignedIntArray:
           value = value.map(getUInt).filter(v => v !== null && v !== undefined);
           break;
+        case ParamType.FloatArray:
+          value = value.map(getFloat).filter(v => v !== null && v !== undefined);
+          break;
       }
       if (value.length !== 0)
         params[paramName] = value;
@@ -169,9 +191,15 @@ export function collectParams(definitions, {
         case ParamType.UnsignedInt:
           value = getUInt(value);
           break;
+        case ParamType.Float:
+          value = getFloat(value);
+          break;
         case Boolean:
         case ParamType.Boolean:
           value = getBoolean(value);
+          break;
+        case ParamType.JSON:
+          value = getJSON(value);
           break;
         case String:
         case ParamType.String:
