@@ -1,9 +1,9 @@
 {
   "name": "omniparams",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A simple multi-source parameter collection library for NodeJS",
   "main": "omniparams.js",
-  "exports": "omniparams.js",
+  "exports": "./omniparams.js",
   "type": "module",
   "engines": {
     "node": ">=16"

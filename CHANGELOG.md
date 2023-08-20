@@ -1,3 +1,6 @@
+# v0.8.1
+* Fix for package.json .exports entry path
+
 # v0.8.0
 * Added URL, URLArray parameter types
 * Updated dependencies
