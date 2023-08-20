@@ -13,7 +13,7 @@ dotenv.config();
 
 /**
  * Parameter definition types to convert found environment/command line values into:
- * String, StringArray, Int, IntArray, UnsignedInt, UnsignedIntArray, Float, FloatArray, Boolean, JSON
+ * String, StringArray, Int, IntArray, UnsignedInt, UnsignedIntArray, Float, FloatArray, Boolean, JSON, URL, URLArray
  * Boolean values that resolve to true (case-insensitive): 1, t, true, y, yes, on, enable, enabled.
  * Boolean values that resolve to false (case-insensitive): 0, f, false, n, no, off, disable, disabled.
  * @enum {string}
@@ -29,6 +29,8 @@ export const ParamType = {
   FloatArray: 'float[]',
   Boolean: 'boolean',
   JSON: 'json',
+  URL: 'url',
+  URLArray: 'url[]',
 };
 
 /**
@@ -118,6 +120,15 @@ function getJSON(value) {
   }
 }
 
+function getURL(value) {
+  try {
+    return new URL(value);
+  }
+  catch(err) {
+    return null;
+  }
+}
+
 /**
  * Perform the collection of values, given the parameter defintions. It returns an object with properties set
  * to any found (or default) values. Any properties not found and without a provided default value set will be omitted.
@@ -158,20 +169,26 @@ export function collectParams(definitions, {
         else
           value = [...value, arg];
       }
+      let valueMapper = null;
       switch (definition.type) {
         case ParamType.StringArray:
-          value = value.map(getString).filter(v => v !== null && v !== undefined);
+          valueMapper = getString;
           break;
         case ParamType.IntArray:
-          value = value.map(getInt).filter(v => v !== null && v !== undefined);
+          valueMapper = getInt;
           break;
         case ParamType.UnsignedIntArray:
-          value = value.map(getUInt).filter(v => v !== null && v !== undefined);
+          valueMapper = getUInt;
           break;
         case ParamType.FloatArray:
-          value = value.map(getFloat).filter(v => v !== null && v !== undefined);
+          valueMapper = getFloat;
+          break;
+        case ParamType.URLArray:
+          valueMapper = getURL;
           break;
       }
+      if (valueMapper)
+        value = value.map(valueMapper).filter(v => v !== null && v !== undefined);
       if (value.length !== 0)
         params[paramName] = value;
       else if (definition.default !== undefined)
@@ -200,6 +217,9 @@ export function collectParams(definitions, {
           break;
         case ParamType.JSON:
           value = getJSON(value);
+          break;
+        case ParamType.URL:
+          value = getURL(value);
           break;
         case String:
         case ParamType.String:
