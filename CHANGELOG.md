@@ -1,3 +1,8 @@
+# v0.8.0
+* Added URL, URLArray parameter types
+* Updated dependencies
+* Updated package.json to use .exports along with prior .main definition
+
 # v0.7.0
 * Added Float, FloatArray parameter types
 * Updated dependencies

@@ -24,6 +24,11 @@ const testDefs = [
   { param_name: 'jsonDefaultItem', env_name: 'JSON_DEFAULT_ITEM', arg_name: 'jsonDefaultItem', type: 'json', default: { greeting: "hello", count: 42 } },
   { param_name: 'invalidJSONItem', env_name: 'INVALID_JSON_ITEM', arg_name: 'invalidJSONItem', type: 'json' },
   { param_name: 'singleStringArrayItem', env_name: 'SINGLE_STRING_ARRAY_ITEM', arg_name:'singleStringArrayItem', type: 'string[]' },
+  { param_name: 'urlItem', env_name: 'URL_ITEM', arg_name: 'urlItem', type: 'url' },
+  { param_name: 'urlDefaultItem', env_name: 'URL_DEFAULT_ITEM', arg_name: 'urlDefaultItem', type: 'url', default: new URL('https://www.example.com/') },
+  { param_name: 'invalidURLItem', env_name: 'INVALID_URL_ITEM', arg_name: 'invalidURLItem', type: 'url' },
+  { param_name: 'urlArrayItem', env_name: 'URL_ARRAY_ITEM', arg_name: 'urlArrayItem', type: 'url[]' },
+  { param_name: 'urlArrayDefaultItem', env_name: 'URL_ARRAY_DEFAULT_ITEM', arg_name: 'urlArrayDefaultItem', type: 'url[]', default: [new URL('https://www.example.com/'), new URL('https://demo.example.com/')] },
 ];
 
 tap.test('Supports environment variables', async (test) => {
@@ -49,6 +54,10 @@ tap.test('Supports environment variables', async (test) => {
       JSON_ITEM: '{ "hello": "there" }',
       INVALID_JSON_ITEM: `{ bad: "json" }`,
       SINGLE_STRING_ARRAY_ITEM_0: 'yes',
+      URL_ITEM: 'https://demo.example.com/',
+      INVALID_URL_ITEM: 'bad.example.com',
+      URL_ARRAY_ITEM_0: 'https://demo0.example.com/',
+      URL_ARRAY_ITEM_1: 'https://demo1.example.com/',
     },
   });
   test.equal(params.stringItem, 'string0');
@@ -63,6 +72,9 @@ tap.test('Supports environment variables', async (test) => {
   test.same(params.jsonItem, { hello: 'there' });
   test.same(params.invalidJSONItem, null);
   test.same(params.singleStringArrayItem, ['yes']);
+  test.same(params.urlItem, new URL('https://demo.example.com/'));
+  test.same(params.invalidURLItem, null);
+  test.same(params.urlArrayItem, [ new URL('https://demo0.example.com/'), new URL('https://demo1.example.com/') ]);
 });
 
 tap.test('Supports environment variables with defaults', async (test) => {
@@ -88,6 +100,10 @@ tap.test('Supports environment variables with defaults', async (test) => {
       JSON_ITEM: '{ "hello": "there" }',
       INVALID_JSON_ITEM: `{ bad: "json" }`,
       SINGLE_STRING_ARRAY_ITEM_0: 'yes',
+      URL_ITEM: 'https://demo.example.com/',
+      INVALID_URL_ITEM: 'bad.example.com',
+      URL_ARRAY_ITEM_0: 'https://demo0.example.com/',
+      URL_ARRAY_ITEM_1: 'https://demo1.example.com/',
     },
   });
   test.equal(params.stringItem, 'string0');
@@ -112,6 +128,11 @@ tap.test('Supports environment variables with defaults', async (test) => {
   test.same(params.jsonDefaultItem, { greeting: "hello", count: 42 });
   test.same(params.invalidJSONItem, null);
   test.same(params.singleStringArrayItem, ['yes']);
+  test.same(params.urlItem, new URL('https://demo.example.com/'));
+  test.same(params.urlDefaultItem, new URL('https://www.example.com/'));
+  test.same(params.invalidURLItem, null);
+  test.same(params.urlArrayItem, [ new URL('https://demo0.example.com/'), new URL('https://demo1.example.com/') ]);
+  test.same(params.urlArrayDefaultItem, [ new URL('https://www.example.com/'), new URL('https://demo.example.com/') ]);
 });
 
 tap.test('Supports commandline parameters', async (test) => {
@@ -137,6 +158,10 @@ tap.test('Supports commandline parameters', async (test) => {
       '--jsonItem={ "hello": "there" }',
       '--invalidJSONItem={ bad: "json" }',
       '--singleStringArrayItem=yes',
+      '--urlItem=https://demo.example.com/',
+      '--invalidURLItem=bad.example.com',
+      '--urlArrayItem=https://demo0.example.com/',
+      '--urlArrayItem=https://demo1.example.com/',
     ],
   });
   test.equal(params.stringItem, 'string0');
@@ -151,6 +176,11 @@ tap.test('Supports commandline parameters', async (test) => {
   test.same(params.jsonItem, { hello: 'there' });
   test.same(params.invalidJSONItem, null);
   test.same(params.singleStringArrayItem, ['yes']);
+  test.same(params.urlItem, new URL('https://demo.example.com/'));
+  test.same(params.urlDefaultItem, new URL('https://www.example.com/'));
+  test.same(params.invalidURLItem, null);
+  test.same(params.urlArrayItem, [ new URL('https://demo0.example.com/'), new URL('https://demo1.example.com/') ]);
+  test.same(params.urlArrayDefaultItem, [ new URL('https://www.example.com/'), new URL('https://demo.example.com/') ]);
 });
 
 tap.test('Supports commandline parameters with defaults', async (test) => {
@@ -176,6 +206,10 @@ tap.test('Supports commandline parameters with defaults', async (test) => {
       '--jsonItem={ "hello": "there" }',
       '--invalidJSONItem={ bad: "json" }',
       '--singleStringArrayItem=yes',
+      '--urlItem=https://demo.example.com/',
+      '--invalidURLItem=bad.example.com',
+      '--urlArrayItem=https://demo0.example.com/',
+      '--urlArrayItem=https://demo1.example.com/',
     ],
   });
   test.equal(params.stringItem, 'string0');
@@ -200,6 +234,11 @@ tap.test('Supports commandline parameters with defaults', async (test) => {
   test.same(params.jsonDefaultItem, { greeting: "hello", count: 42 });
   test.same(params.invalidJSONItem, null);
   test.same(params.singleStringArrayItem, ['yes']);
+  test.same(params.urlItem, new URL('https://demo.example.com/'));
+  test.same(params.urlDefaultItem, new URL('https://www.example.com/'));
+  test.same(params.invalidURLItem, null);
+  test.same(params.urlArrayItem, [ new URL('https://demo0.example.com/'), new URL('https://demo1.example.com/') ]);
+  test.same(params.urlArrayDefaultItem, [ new URL('https://www.example.com/'), new URL('https://demo.example.com/') ]);
 });
 
 tap.test('Supports commandline parameter override/combination of environment variables', async (test) => {
@@ -220,6 +259,7 @@ tap.test('Supports commandline parameter override/combination of environment var
       INT_ARRAY_ITEM_2: '-8',
       JSON_ITEM: '{ "hello": "there" }',
       INVALID_JSON_ITEM: `{ bad: "json" }`,
+      URL_ITEM: 'https://demo.example.com/',
     },
     argv: [
       '--stringItem=override-string0',
@@ -241,6 +281,7 @@ tap.test('Supports commandline parameter override/combination of environment var
       '--floatArrayItem=60.6',
       '--jsonItem={ "goodbye": "later" }',
       '--singleStringArrayItem=yes',
+      '--urlItem=https://new.example.com',
     ],
   });
   test.equal(params.stringItem, 'override-string0');
@@ -265,4 +306,5 @@ tap.test('Supports commandline parameter override/combination of environment var
   test.same(params.jsonDefaultItem, { greeting: "hello", count: 42 });
   test.same(params.invalidJSONItem, null);
   test.same(params.singleStringArrayItem, ['yes']);
+  test.same(params.urlItem, new URL('https://new.example.com/'));
 });

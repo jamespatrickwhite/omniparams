@@ -1,8 +1,9 @@
 {
   "name": "omniparams",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "A simple multi-source parameter collection library for NodeJS",
   "main": "omniparams.js",
+  "exports": "omniparams.js",
   "type": "module",
   "engines": {
     "node": ">=16"
@@ -29,13 +30,13 @@
     "url": "https://github.com/jamespatrickwhite/omniparams.git"
   },
   "dependencies": {
-    "dotenv": "^16.0.3",
+    "dotenv": "^16.3.1",
     "minimist": "^1.2.8"
   },
   "devDependencies": {
-    "c8": "^7.13.0",
-    "jsdoc": "^4.0.1",
+    "c8": "^8.0.1",
+    "jsdoc": "^4.0.2",
     "jsdoc-to-markdown": "^8.0.0",
-    "tap": "^16.3.4"
+    "tap": "^16.3.8"
   }
 }

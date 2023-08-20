@@ -19,7 +19,7 @@ being able to act as override for what was set in an environment variable.
 
 ### omniparams.ParamType : <code>enum</code>
 Parameter definition types to convert found environment/command line values into:
-String, StringArray, Int, IntArray, UnsignedInt, UnsignedIntArray, Float, FloatArray, Boolean, JSON
+String, StringArray, Int, IntArray, UnsignedInt, UnsignedIntArray, Float, FloatArray, Boolean, JSON, URL, URLArray
 Boolean values that resolve to true (case-insensitive): 1, t, true, y, yes, on, enable, enabled.
 Boolean values that resolve to false (case-insensitive): 0, f, false, n, no, off, disable, disabled.
 
